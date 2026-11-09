@@ -28,8 +28,8 @@ jobs:
         run: |
           pip install bandit
           bandit -r sample-app -x sample-app/app.py -ll
- 
-    gitleaks:
+
+  gitleaks:
     name: Gitleaks (Secret Detection)
     runs-on: ubuntu-latest
     permissions:
@@ -40,7 +40,6 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
         env:
