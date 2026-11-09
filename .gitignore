@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.env
+db.sqlite
+docs/bandit-report.html
+docs/gitleaks-report.json
+sample-app/sample-app/

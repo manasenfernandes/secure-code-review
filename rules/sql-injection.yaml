@@ -1,0 +1,13 @@
+rules:
+  - id: custom-sql-string-concat
+    languages: [python]
+    severity: ERROR
+    message: >-
+      SQL query built with string concatenation. Use a parameterized query instead:
+      conn.execute("SELECT * FROM users WHERE name = ?", (name,))
+    metadata:
+      cwe: "CWE-89"
+      owasp: "A03:2021 - Injection"
+    pattern-either:
+      - pattern: $CONN.execute("..." + $X)
+      - pattern: $CONN.execute("..." + $X + "...")
