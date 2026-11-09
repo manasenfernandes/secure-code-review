@@ -44,3 +44,27 @@ jobs:
         uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  dependency-check:
+    name: OWASP Dependency-Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Run OWASP Dependency-Check
+        run: |
+          mkdir -p reports
+          docker run --rm \
+            -v "$PWD:/src" \
+            owasp/dependency-check:13.0.0 \
+            --project "Secure Code Review" \
+            --scan /src/sample-app \
+            --enableExperimental \
+            --format HTML \
+            --out /src/reports
+
+      - name: Upload Dependency-Check Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: reports/
+          if-no-files-found: error
