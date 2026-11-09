@@ -1,4 +1,4 @@
 import subprocess
 
-def run(cmd_list):
-    return subprocess.call(cmd_list, shell=False)
+def run(cmd):
+    return subprocess.call(cmd, shell=True)
