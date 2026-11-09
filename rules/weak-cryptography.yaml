@@ -3,22 +3,12 @@ rules:
     languages:
       - python
     severity: WARNING
-    message: >-
-      MD5 is a weak hashing algorithm. Use SHA-256 or a stronger
-      cryptographic hash where appropriate.
-    metadata:
-      cwe: "CWE-328"
-      owasp: "A02:2021 - Cryptographic Failures"
+    message: MD5 is a weak hashing algorithm.
     pattern: hashlib.md5(...)
 
   - id: weak-hash-sha1
     languages:
       - python
     severity: WARNING
-    message: >-
-      SHA-1 is considered weak for security-sensitive hashing.
-      Use SHA-256 or stronger where appropriate.
-    metadata:
-      cwe: "CWE-328"
-      owasp: "A02:2021 - Cryptographic Failures"
+    message: SHA-1 is weak for security-sensitive hashing.
     pattern: hashlib.sha1(...)
