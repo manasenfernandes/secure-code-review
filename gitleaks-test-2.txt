@@ -1,0 +1,2 @@
+   # Fake credential for Gitleaks testing only - DO NOT MERGE
+   AWS_ACCESS_KEY_ID=AKIAQWERTYUIOPASDFGH
