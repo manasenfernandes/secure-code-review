@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Run Semgrep
         run: semgrep scan --config p/owasp-top-ten --config rules/ --exclude sample-app/app.py --verbose --error
+
   bandit:
     name: Bandit (Python)
     runs-on: ubuntu-latest
@@ -73,7 +74,28 @@ jobs:
         with:
           name: dependency-check-report
           path: reports/
-          if-no-files-found: error       
+          if-no-files-found: error
+
+  authentication-tests:
+    name: Authentication and RBAC Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r sample-app/requirements.txt
+          pip install pytest
+
+      - name: Run authentication tests
+        run: |
+          cd sample-app
+          pytest tests/ -v
+
   pip-audit:
     name: pip-audit (Python Dependencies)
     runs-on: ubuntu-latest
