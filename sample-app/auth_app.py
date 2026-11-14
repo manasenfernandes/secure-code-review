@@ -8,9 +8,8 @@ from flask import (
     session, flash, render_template_string
 )
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from flask_wtf.csrf import CSRFProtect
 app = Flask(__name__)
-
 # Configure application security
 app.secret_key = os.environ.get("SECRET_KEY")
 
@@ -22,6 +21,7 @@ app.config.update(
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=os.environ.get("COOKIE_SECURE", "false").lower() == "true"
 )
+csrf = CSRFProtect(app)
 
 DATABASE = Path(__file__).with_name("auth.db")
 
@@ -147,10 +147,11 @@ def register():
     return render_template_string("""
         <h2>Register</h2>
         <form method="POST">
-            Username: <input name="username" required maxlength="50"><br><br>
-            Password: <input name="password" type="password" required minlength="12"><br><br>
-            <button type="submit">Register</button>
-        </form>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+             Username: <input name="username" required maxlength="50"><br><br>
+             Password: <input name="password" type="password" required minlength="12"><br><br>
+             <button type="submit">Register</button>
+         </form>
         <a href="/login">Login</a>
     """)
 
@@ -179,11 +180,12 @@ def login():
 
     return render_template_string("""
         <h2>Login</h2>
-        <form method="POST">
+       <form method="POST">
+           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             Username: <input name="username" required><br><br>
             Password: <input name="password" type="password" required><br><br>
             <button type="submit">Login</button>
-        </form>
+       </form>
         <a href="/register">Register</a>
     """)
 
@@ -207,6 +209,7 @@ def dashboard():
         <p>Welcome, {{ username }}!</p>
         <p>Your role: {{ role }}</p>
         <form method="POST" action="/logout">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button type="submit">Logout</button>
         </form>
     """, username=session["username"], role=user["role"])
@@ -231,6 +234,7 @@ def admin():
         {% endfor %}
         </ul>
         <form method="POST" action="/logout">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button type="submit">Logout</button>
         </form>
     """, username=session["username"], users=users)
