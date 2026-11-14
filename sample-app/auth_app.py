@@ -192,14 +192,24 @@ def login():
 @app.route("/dashboard")
 @login_required
 def dashboard():
+    with get_db() as conn:
+        user = conn.execute(
+            "SELECT role FROM users WHERE id = ?",
+            (session["user_id"],)
+        ).fetchone()
+
+    if not user:
+        session.clear()
+        return redirect(url_for("login"))
+
     return render_template_string("""
         <h2>User Dashboard</h2>
         <p>Welcome, {{ username }}!</p>
-        <p>Your role: User</p>
+        <p>Your role: {{ role }}</p>
         <form method="POST" action="/logout">
             <button type="submit">Logout</button>
         </form>
-    """, username=session["username"])
+    """, username=session["username"], role=user["role"])
 
 
 # Admin-only dashboard
