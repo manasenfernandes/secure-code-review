@@ -1,7 +1,31 @@
+# Python cache
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+
+# Environment variables and secrets
 .env
+.env.*
+
+# Local databases
 db.sqlite
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated security reports
 docs/bandit-report.html
 docs/gitleaks-report.json
+
+# Generated performance reports
+reports/
+*.prof
+
+# Sample application temporary files
 sample-app/sample-app/
