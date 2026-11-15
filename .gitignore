@@ -1,7 +1,9 @@
 # Python cache
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Virtual environments
 venv/
@@ -20,6 +22,10 @@ db.sqlite
 # Generated security reports
 docs/bandit-report.html
 docs/gitleaks-report.json
+
+# Generated performance reports
+reports/
+*.prof
 
 # Sample application temporary files
 sample-app/sample-app/
