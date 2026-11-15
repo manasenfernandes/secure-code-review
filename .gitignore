@@ -1,7 +1,25 @@
+# Python cache
 __pycache__/
 *.pyc
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+
+# Environment variables and secrets
 .env
+.env.*
+
+# Local databases
 db.sqlite
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated security reports
 docs/bandit-report.html
 docs/gitleaks-report.json
+
+# Sample application temporary files
 sample-app/sample-app/
